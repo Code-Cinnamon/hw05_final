@@ -188,6 +188,17 @@ class PostPagesTests(TestCase):
         self.assertIn('form', response.context)
         self.assertIsInstance(response.context['form'], CommentForm)
 
+    def test_post_with_image_appears_in_pages(self):
+        '''Тест на наличие картинки на страницах'''
+        urls = [
+            reverse('posts:index'),
+            reverse('posts:group_list', args=['test-slug']),
+            reverse('posts:profile', args=[self.user]),
+        ]
+        for url in urls:
+            response = self.authorized_client.get(url)
+            self.assertContains(response, '<img')
+
 
 class PostPaginatorTests(TestCase):
     @classmethod

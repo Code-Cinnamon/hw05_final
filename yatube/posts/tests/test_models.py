@@ -21,14 +21,15 @@ class PostModelTest(TestCase):
             text='Тестовый пост длинее 15 символов',
         )
 
-    def test_symbols(self):
-        """ Проверяем, первые 15 символов поста"""
-        post = PostModelTest.post
-        text = post.text[:15]
-        self.assertEqual(text, str(post))
+    def test_model_group_have_correct_title_field(self):
+        """Проверяем, что у класса Group корректно работает название."""
         group = PostModelTest.group
-        name = group.title
-        self.assertEqual(name, str(group))
+        self.assertEqual(group.title, str(group))
+
+    def test_model_post_have_correct_object_names(self):
+        """Проверяем, что у класса Post выводятся 15 символов поста."""
+        post = PostModelTest.post
+        self.assertEqual(post.text[:15], str(post))
 
     def test_verbose_name(self):
         """verbose_name в полях совпадает с ожидаемым."""

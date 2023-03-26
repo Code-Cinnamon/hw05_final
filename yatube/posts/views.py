@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group, User, Follow
 from .forms import PostForm, CommentForm
 from .utils import paginator_obj
-'''from django.urls import reverse_lazy'''
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie

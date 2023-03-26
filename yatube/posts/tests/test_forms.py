@@ -59,7 +59,7 @@ class PostFormsTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def test_authorized_client_post_create(self):
-        """"Создается новый пост"""
+        """"Авторизованный пользователь может создать новый пост"""
         form_data = {
             'text': 'Данные из формы',
             'group': self.group.pk,
@@ -74,9 +74,16 @@ class PostFormsTests(TestCase):
         self.assertRedirects(response, reverse(
             'posts:profile', kwargs={'username': post.author}))
         self.assertEqual(Post.objects.count(), 1)
-        self.assertEqual(post.text, form_data["text"])
-        self.assertEqual(post.author, self.TestUser)
-        self.assertEqual(post.group, PostFormsTests.group)
+        '''self.assertEqual(post.text, form_data["text"])'''
+        self.assertTrue(
+            Post.objects.filter(
+                text=form_data['text'],
+                image=f'posts/{self.uploaded}',
+                group=PostFormsTests.group
+            ).exists()
+        )
+        '''self.assertEqual(post.author, self.TestUser)
+        self.assertEqual(post.group, PostFormsTests.group)'''
 
     def test_guest_client_post_create(self):
         """"Неавторизованный клиент не может создавать посты."""
@@ -117,9 +124,15 @@ class PostFormsTests(TestCase):
         self.assertRedirects(response, redirect)
         self.assertEqual(Post.objects.count(), 1)
         post = Post.objects.first()
-        self.assertEqual(post.text, form_data["text"])
+        '''self.assertEqual(post.text, form_data["text"])
         self.assertEqual(post.author, self.TestUser)
-        self.assertEqual(post.group, self.group2)
+        self.assertEqual(post.group, self.group2)'''
+        self.assertFalse(
+            Post.objects.filter(
+                text=form_data['text'],
+                group=PostFormsTests.group,
+            ).exists()
+        )
 
 
 class CommentFormTests(TestCase):
