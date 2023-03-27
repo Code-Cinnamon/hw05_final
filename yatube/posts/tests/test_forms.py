@@ -82,8 +82,6 @@ class PostFormsTests(TestCase):
                 group=PostFormsTests.group
             ).exists()
         )
-        '''self.assertEqual(post.author, self.TestUser)
-        self.assertEqual(post.group, PostFormsTests.group)'''
 
     def test_guest_client_post_create(self):
         """"Неавторизованный клиент не может создавать посты."""
@@ -102,7 +100,7 @@ class PostFormsTests(TestCase):
         self.assertEqual(Post.objects.count(), 0)
 
     def test_authorized_post_edit(self):
-        """"Авторизованный клиент может редактировать посты."""
+        """"Авторизованный пользователь может редактировать посты."""
         post = Post.objects.create(
             text='Тестовый текст',
             author=self.TestUser,
@@ -121,16 +119,13 @@ class PostFormsTests(TestCase):
             'posts:post_detail',
             kwargs={'post_id': post.pk}
         )
+        post = Post.objects.first()
         self.assertRedirects(response, redirect)
         self.assertEqual(Post.objects.count(), 1)
-        post = Post.objects.first()
-        '''self.assertEqual(post.text, form_data["text"])
-        self.assertEqual(post.author, self.TestUser)
-        self.assertEqual(post.group, self.group2)'''
-        self.assertFalse(
+        self.assertTrue(
             Post.objects.filter(
                 text=form_data['text'],
-                group=PostFormsTests.group,
+                group=PostFormsTests.group2,
             ).exists()
         )
 
