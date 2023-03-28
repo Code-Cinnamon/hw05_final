@@ -26,6 +26,8 @@ SECRET_KEY = 'khsupj!-@^jo#)6_-*=4ml7d(t_0p$biq(xqe5xba0yz(78^zq'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'www.where.pythonanywhere.com'
+    'where.pythonanywhere.com'
     'localhost',
     '127.0.0.1',
     '[::1]',
